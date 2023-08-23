@@ -1,8 +1,8 @@
 package ModelElements;
 
-import Staff.Angle3D;
-import Staff.Color;
-import Staff.Point3D;
+import Stuff.Angle3D;
+import Stuff.Color;
+import Stuff.Point3D;
 
 public class Flash {
     public Point3D location;
@@ -10,14 +10,7 @@ public class Flash {
     public Color color;
     public Float power;
 
-    public Flash(Point3D location, Angle3D angle, Color color, Float power) {
-        this.location = location;
-        this.angle = angle;
-        this.color = color;
-        this.power = power;
-    }
-
-    public void rotate(Angle3D angle) {
+     public void rotate(Angle3D angle) {
 
     }
 

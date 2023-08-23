@@ -1,4 +1,4 @@
-package Staff;
+package Stuff;
 
 public class Color {
 }

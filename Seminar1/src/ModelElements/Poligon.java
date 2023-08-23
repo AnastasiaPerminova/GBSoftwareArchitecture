@@ -1,6 +1,6 @@
 package ModelElements;
 
-import Staff.Point3D;
+import Stuff.Point3D;
 
 import java.util.ArrayList;
 import java.util.List;
