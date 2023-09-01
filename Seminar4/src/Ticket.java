@@ -17,7 +17,7 @@ public class Ticket {
         this.isValid = true;
     }
 
-       public int hashCode() {
+    public int hashCode() {
         return Objects.hash(price,seat,date);
     }
 

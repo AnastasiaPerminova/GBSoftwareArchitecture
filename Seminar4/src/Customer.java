@@ -1,20 +1,21 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Customer {
     private int id;
     private ArrayList<Ticket> tickets;
-    private CashProvider cash;
+    private long cardNumber;
 
-    public boolean buyTicket(Ticket ticket) {
-        if(cash.buy(ticket.getPrice())){
-        this.tickets.add(ticket);
-        System.out.println("Билет куплен");
-        return true;}
+    private boolean isAuthorized;
 
-        return false;
-    }
+//    public boolean buyTicket(Ticket ticket) {
+//        if(buy(ticket.getPrice())){
+//        this.tickets.add(ticket);
+//        System.out.println("Билет куплен");
+//        return true;}
+//
+//        return false;
+//    }
 
     public void search(LocalDate date, long rootNumber) {
         for (int i = 0; i < tickets.size(); i++) {
