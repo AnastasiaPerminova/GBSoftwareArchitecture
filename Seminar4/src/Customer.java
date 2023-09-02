@@ -1,32 +1,51 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
 
-public class Customer {
+public class Customer implements GenerateCustomerID{
     private int id;
     private ArrayList<Ticket> tickets;
     private long cardNumber;
 
     private boolean isAuthorized;
 
-//    public boolean buyTicket(Ticket ticket) {
-//        if(buy(ticket.getPrice())){
-//        this.tickets.add(ticket);
-//        System.out.println("Билет куплен");
-//        return true;}
-//
-//        return false;
-//    }
+    public Customer(long cardNumber) {
+        id = generateCustomerId();
+        this.cardNumber = cardNumber;
+        tickets = new ArrayList<Ticket>();
+    }
 
-    public void search(LocalDate date, long rootNumber) {
-        for (int i = 0; i < tickets.size(); i++) {
-            Ticket ticket = tickets.get(i);
-            if (date.equals(ticket.getDate()) && rootNumber == ticket.getRootNumber()) {
-                System.out.println("Билет найден." + ticket);
+    public ArrayList<Ticket> getTickets() {
+        return tickets;
+    }
 
-            } else {
-                System.out.println("Билет не найден");
-            }
+    public void buyTicket(TicketProvider ticketProvider, CreditCardRepository creditCardRepository) throws ParseException {
+        Scanner scanner = new Scanner(System.in);
+        Selling selling = new Selling(cardNumber, ticketProvider, creditCardRepository);
+        System.out.println("Введите дату билета.");
+        System.out.println(ticketProvider.searchTicket(new SimpleDateFormat("yyyy/MM/dd").parse(scanner.next())));
+
+        Ticket ticket = ticketProvider.createTicket(new SimpleDateFormat("yyyy/MM/dd").parse(scanner.next()), scanner.nextInt());
+        if (selling.sell(ticket)) {
+
+            tickets.add(ticket);
         }
     }
-}
+
+//            public void search(LocalDate date, long rootNumber) {
+//                for (int i = 0; i < tickets.size(); i++) {
+//                    Ticket ticket = tickets.get(i);
+//                    if (date.equals(ticket.getDate()) && rootNumber == ticket.getRootNumber()) {
+//                        System.out.println("Билет найден." + ticket);
+//
+//                    } else {
+//                        System.out.println("Билет не найден");
+//                    }
+//                }
+//            }
+
+    }
 

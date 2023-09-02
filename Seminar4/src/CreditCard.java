@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class CreditCard implements CardOperations {
+public class CreditCard implements CardOperations, GenerateCard {
     private String ownerName;
     private String ownerSurname;
     private long cardNumber;
@@ -11,22 +11,13 @@ public class CreditCard implements CardOperations {
     public CreditCard(String ownerName, String ownerSurname) {
         this.ownerName = ownerName;
         this.ownerSurname = ownerSurname;
-        this.cardNumber = hashCode();
-        this.pinCode = "0000";
+        this.cardNumber = generateCardNumber();
+        this.pinCode = generatePinCode();
         this.isAuthorized = false;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CreditCard that = (CreditCard) o;
-        return ownerName.equals(that.ownerName) && ownerSurname.equals(that.ownerSurname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ownerName, ownerSurname);
+    public CreditCard(long cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     public String getOwnerName() {
@@ -90,5 +81,18 @@ public class CreditCard implements CardOperations {
         else {
             throw new FailedAuthorizationException();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreditCard that = (CreditCard) o;
+        return cardNumber == that.cardNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cardNumber);
     }
 }
