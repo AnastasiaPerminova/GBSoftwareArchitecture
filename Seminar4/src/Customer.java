@@ -25,9 +25,9 @@ public class Customer implements GenerateCustomerID{
     public void buyTicket(TicketProvider ticketProvider, CreditCardRepository creditCardRepository) throws ParseException {
         Scanner scanner = new Scanner(System.in);
         Selling selling = new Selling(cardNumber, ticketProvider, creditCardRepository);
-        System.out.println("Введите дату билета.");
+        System.out.println("Введите дату в формате 'yyyy/MM/dd' для проверки наличия билетов.");
         System.out.println(ticketProvider.searchTicket(new SimpleDateFormat("yyyy/MM/dd").parse(scanner.next())));
-
+        System.out.println("Для покупки билета введите дату в формате 'yyyy/MM/dd' и место.");
         Ticket ticket = ticketProvider.createTicket(new SimpleDateFormat("yyyy/MM/dd").parse(scanner.next()), scanner.nextInt());
         if (selling.sell(ticket)) {
 

@@ -6,14 +6,11 @@ public class CreditCard implements CardOperations, GenerateCard {
     private long cardNumber;
     private double accountBalance;
     private String pinCode;
-    private boolean isAuthorized;
-
     public CreditCard(String ownerName, String ownerSurname) {
         this.ownerName = ownerName;
         this.ownerSurname = ownerSurname;
         this.cardNumber = generateCardNumber();
         this.pinCode = generatePinCode();
-        this.isAuthorized = false;
     }
 
     public CreditCard(long cardNumber) {
@@ -34,24 +31,23 @@ public class CreditCard implements CardOperations, GenerateCard {
 
     public double getAccountBalance() {
         AuthorizationProcess authorizationProcess = new AuthorizationProcess();
-        try {
-            authorization(authorizationProcess.getCardNumber(), authorizationProcess.getPinCode());
+       if (authorization(authorizationProcess.getCardNumber(), authorizationProcess.getPinCode()))
+        {
+
             return accountBalance;
         }
-        catch (FailedAuthorizationException e) {
-            System.out.println("Ошибка авторизации");
-        }
-        return -10000000000000000000000000000000.00;
+       return -1000000000;
     }
 
     public void setPinCode(String pinCode) {
         AuthorizationProcess authorizationProcess = new AuthorizationProcess();
-        try{
-        authorization(authorizationProcess.getCardNumber(), authorizationProcess.getPinCode());
-            this.pinCode = pinCode;}
-        catch (FailedAuthorizationException e){
-            System.out.println("Ошибка авторизации");
-        };
+        if(authorization(authorizationProcess.getCardNumber(), authorizationProcess.getPinCode()))
+        {
+            this.pinCode = pinCode;
+        }
+        else {
+            System.out.println("Ошибка авторизации.");
+        }
 
     }
 
@@ -63,24 +59,20 @@ public class CreditCard implements CardOperations, GenerateCard {
     @Override
     public void withdrawMoney(double money) {
         AuthorizationProcess authorizationProcess = new AuthorizationProcess();
-        try{
-            authorization(authorizationProcess.getCardNumber(), authorizationProcess.getPinCode());
-            this.accountBalance = accountBalance - money;}
-        catch (FailedAuthorizationException e){
-            System.out.println("Ошибка авторизации");
-        };
-
-
+        if (authorization(authorizationProcess.getCardNumber(), authorizationProcess.getPinCode()))
+        {this.accountBalance = accountBalance - money;}
+        else {
+            System.out.println("Ошибка авторизации.");
+        }
     }
 
     @Override
-    public void authorization(long cardNumber, String pinCode) throws FailedAuthorizationException {
+    public boolean authorization(long cardNumber, String pinCode) {
+        boolean authorized = false;
         if (cardNumber == this.cardNumber && pinCode.equals(this.pinCode)){
-            isAuthorized = true;
+            authorized = true;
         }
-        else {
-            throw new FailedAuthorizationException();
-        }
+       return authorized;
     }
 
     @Override

@@ -2,7 +2,7 @@ public interface iCash {
 
 
 
-    boolean sell(Ticket ticket) throws FailedAuthorizationException;
+    boolean sell(Ticket ticket);
 
     void returnMoney(Ticket ticket);
 }

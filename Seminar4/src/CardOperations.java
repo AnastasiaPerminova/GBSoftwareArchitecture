@@ -1,7 +1,7 @@
 public interface CardOperations {
-    void addMoney(double money) throws FailedAuthorizationException;
+    void addMoney(double money);
 
-    void withdrawMoney(double money) throws FailedAuthorizationException;
+    void withdrawMoney(double money);
 
-    void authorization(long cardNumber, String pinCode) throws FailedAuthorizationException;
+    boolean authorization(long cardNumber, String pinCode);
 }
