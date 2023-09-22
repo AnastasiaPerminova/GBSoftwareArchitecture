@@ -1,0 +1,120 @@
+openapi: 3.0.0
+info:
+  title: Робот-Пылесос
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Dev server
+paths:
+  /robots:
+    get:
+      summary: Метод получения списка роботов
+      tags:
+        - Robots
+      operationId: getAllRobots
+      responses:
+        "200":
+          description: Успешеный ответ со списком роботов
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Robots"
+        "default":
+          description: Всё остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Создание робота
+      tags:
+        - Robot
+      operationId: createRobot
+      requestBody:
+        content:
+          adplication/json:
+            schema:
+              $ref: "#/components/schemas/Robots"
+      responses:
+        "200":
+          description: Успешеный ответ создания робота
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Robots"
+        "default":
+          description: Всё остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete/{fabricModel}:
+      summary: Метод удаления робота
+      tags:
+        - Robot
+      operationId: deleteRobot
+      parameters:
+        - name: fabricModel
+          in: path
+          required: true
+          description: Удаление робота
+          schema:
+              $ref: "#/components/schemas/Robots"
+          type: string
+          example: f123s125
+
+      responses:
+        "200":
+          description: Успешеный ответ удаления робота
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Robot"
+        "default":
+          description: Всё остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"      
+components:
+  schemas:
+    Robot:
+      type: object
+      required:
+        - id
+        - fabricModel
+        - model
+        - version
+      properties:
+        id:
+          type: integer
+          example: 1
+        model:
+          type: string
+          example: AAA
+          description: Модель пылесоса
+        fabricmodel:
+          type: string
+          example: 1234qa56ds
+          description: Зоводской номер робота
+        version:
+          type: integer
+          example: 12
+          description: Версия прошивки
+
+
+    Error:
+      type: object
+      required:
+        - error_code
+        - error_message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    Robots:
+      type: array
+      items:
+        $ref: "#/components/schemas/Robot"
+
