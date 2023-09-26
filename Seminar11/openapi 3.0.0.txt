@@ -1,0 +1,504 @@
+openapi: 3.0.0
+info:
+  title: Робот-пылесос
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Dev server
+paths:
+  /Robots:
+    get:
+      summary: Метод получения списка роботов
+      tags:
+        - Robot
+      operationId: getAllRobots
+      responses:
+        "200":
+          description: Успешный ответ со списком роботов
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Robots"
+        "default":
+          description: Всё остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Мeтод создания робота
+      tags:
+        - Robot
+      operationId: createRobot
+      requestBody:
+        required: true
+        content:
+          adplication/json:
+            schema:
+              $ref: "#/components/schemas/Robot"
+      responses:
+        "200":
+          description: Успешный ответ создания робота
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Robot"
+        "default":
+          description: Всё остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /Robot/deletebyId/{robotId}:
+    delete:
+      tags:
+       - Robot
+      summary: Метод поиска робота по ID
+      operationId: deleteRobotById
+      parameters:
+        - name: robotId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Robot'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Robot'
+        "default":
+          description: Всё остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"      
+  /Robot/findById/{robotId}:
+    get:
+      tags:
+        - Robot
+      summary: Метод поиска робота по ID
+      operationId: getRobotById
+      parameters:
+        - name: robotId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Robot'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Robot'
+        '400':
+          description: Invalid ID supplied
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+          
+        '404':
+          description: Robot not found
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+  /User:
+    put:
+      tags:
+        - User
+      summary: Пользователь пылесоса
+      description: Зарегистрированный пользователь пылесоса
+      operationId: updateUser
+      requestBody:
+        description: Обновление данных пользователя
+        content:
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: Успешный ответ обновления данных пользователя
+          content:
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid ID supplied
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+        '404':
+          description: Group not found
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+        '405':
+          description: Validation exception
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+          
+    post:
+      tags:
+        - User
+      summary: Добавление нового пользователя пылесоса
+      description: Добавление нового пользователя пылесоса по необходимой информации
+      operationId: addUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: Успешный ответ добавления нового пользователя пылесова
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '405':
+          description: Invalid input
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+                
+  /User/findById/{userId}:
+    get:
+      tags:
+        - User
+      summary: Поиск пользователя по ID
+      description: Поиск пользователя по ID
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешный ответ поиска пользователя по ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid ID supplied
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+        '404':
+          description: User not found
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+                
+  /User/deleteById/{userId}:      
+    delete:
+      tags:
+        - User
+      summary: Удаление пользователя по ID
+      description: Удаление пользователя по ID из списка пользователей
+      operationId: deleteUser
+      parameters:
+        - name: userId
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: ID 
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid User value
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /Schedule:
+    put:
+      tags:
+        - Schedule
+      summary: Обновление расписания
+      description: Обновление информации о запланированной уборке
+      operationId: updateSchedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+        '400':
+          description: Invalid ID supplied
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          
+        '404':
+          description: Schedule not found
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '405':
+          description: Validation exception
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          
+    post:
+      tags:
+        - Schedule
+      summary: Создание 
+      description: Добавление уборки в расписание
+      operationId: addSchedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+        required: true
+      responses:
+        '200':
+          description: Успешный ответ добавления уборки в график
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+        '405':
+          description: Invalid input
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /Schedule/deleteById/{id}:      
+    delete:
+      tags:
+        - Schedule
+      summary: Удаление уборки из графика
+      description: Удалить запланированную уборку
+      operationId: deleteSchedule
+      parameters:
+        - name: id
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: ID СЂРѕР±РѕС‚Р°
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешный ответ удаления уборки из графика
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'    
+      
+        '400':
+          description: Invalid Schedule value
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Robot:
+      type: object
+      required:
+        - id
+        - model
+        - version
+        - status
+        - resourse
+        - fabric_model
+        - ip_adress
+      properties:
+        id:
+          type: integer
+          example: 1
+        model:
+          type: string
+          example: "AAA"
+          description: Модель пылесоса
+        version:
+          type: string
+          example: "adfdf123sd"
+          description: Версия модели и прошивки
+          
+        status:
+          type: string
+          example: "worked"
+          description: Текущее состояние робота
+          
+        resourse:
+          type: integer
+          example: 75
+          description: Количество отработанных часов
+        fabric_model:
+          type: integer
+          example: 1234567
+          description: Зоводской номер робота
+        ip_adress:
+          type: string
+          example: "192.168.2.5"
+    Robots:
+      type: array
+      items:
+        $ref: "#/components/schemas/Robot"
+    User:
+      type: object
+      required:
+        - id
+        - hash
+        - login
+        - email
+      properties:
+        id:
+          type: integer
+          example: 1
+        hash:
+          type: string
+          example: 2303b15bfa48c74a74758135a0df1201
+          description: Хранение пароля пользователя
+
+        login:
+          type: string
+          example: "JohnDoe"
+          description: Имя пользователя
+        email:
+          type: string
+          example: JohnDoe@mail.com
+          description: e-mail
+
+    Users:
+      type: array
+      items:
+        $ref: "#/components/schemas/User"
+
+    Error:
+      type: object
+      required: 
+        - code_error
+        - message_error
+      properties:
+        code_error:
+          type: integer
+        message_error:
+          type: string
+    Schedule:
+      description: Запланированная уборка
+      required:
+        - id
+        - DateTime
+        - idRobotUser
+        - mode
+        - id_room
+      properties:
+        id:
+          type: integer
+          example: 1
+        DateTime:
+          type: object
+          example: 2017-05-31 15:30:05.107157000
+          description: Время уборки
+
+        idRobotUser:
+          type: integer
+          example: 23
+          description: Соответствие робота и зарегистрированного пользователя
+        mode:
+          type: string
+          example: max
+          description: Режим уборки 
+        
+        id_room:
+          type: integer
+          example: 4
+          description: Номер помещения по карте
+      
+    ScheduleArray:
+      description: График запланированных уборок
+      type: array
+      items:
+        $ref: '#/components/schemas/Schedule'   
